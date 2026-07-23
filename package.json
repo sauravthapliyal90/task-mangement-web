@@ -1,0 +1,21 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "description": "A full-stack task management system: a Node/Express/MongoDB API and a Vite/React frontend, kept as two independent projects that talk over HTTP and Socket.io.",
+  "main": "index.js",
+ "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sauravthapliyal90/task-mangement-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sauravthapliyal90/task-mangement-web/issues"
+  },
+  "homepage": "https://github.com/sauravthapliyal90/task-mangement-web#readme"
+}
