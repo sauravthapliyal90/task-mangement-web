@@ -4,7 +4,7 @@ import client from '../api/client';
 import { getSocket } from '../lib/socket';
 
 export function useTasks(filters) {
-  const params = Object.fromEntries(Object.entries(filters).filter(([, v]) => v));
+  const params = Object.fromEntries(Object.entries(filters).filter(([, v]) => v)); //convering object into array and filtering out falsy values and converting back to object
   return useQuery({
     queryKey: ['tasks', params],
     queryFn: async () => client.get('/tasks', { params }),
