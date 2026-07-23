@@ -23,7 +23,11 @@ const NEXT_STATUS = {
 
 const columnHelper = createColumnHelper();
 
-export default function TaskTable({ tasks, isLoading }) {
+export default function TaskTable({
+  tasks,
+  isLoading,
+  onEdit,
+}) {
   const { user } = useAuth();
   const canManage = user?.roles?.some((r) => r === 'admin' || r === 'manager');
   const updateTask = useUpdateTask();
@@ -118,14 +122,35 @@ export default function TaskTable({ tasks, isLoading }) {
         id: 'actions',
         header: '',
         cell: (info) => (
-          <button
-            onClick={() => {
-              if (confirm('Delete this task?')) deleteTask.mutate(info.row.original._id);
-            }}
-            className="text-xs text-slate-600 transition hover:text-coral-400"
-          >
-            Delete
-          </button>
+          <div className="flex gap-2">
+
+            {canManage && (
+              <button
+                onClick={() => {
+                  console.log("Edit clicked");
+                  console.log(info.row.original);
+                  onEdit(info.row.original);
+                }}
+                className="text-xs text-signal-400 hover:underline"
+              >
+                Edit
+              </button>
+            )}
+
+            {canManage && (
+              <button
+                onClick={() => {
+                  if (confirm("Delete this task?")) {
+                    deleteTask.mutate(info.row.original._id);
+                  }
+                }}
+                className="text-xs text-coral-400 hover:underline"
+              >
+                Delete
+              </button>
+            )}
+
+          </div>
         ),
       }),
     ],
@@ -165,9 +190,8 @@ export default function TaskTable({ tasks, isLoading }) {
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className={`border-b border-ink-800 border-l-2 bg-ink-900/40 last:border-b-0 ${
-                PRIORITY_RAIL[row.original.priority] || 'border-l-transparent'
-              }`}
+              className={`border-b border-ink-800 border-l-2 bg-ink-900/40 last:border-b-0 ${PRIORITY_RAIL[row.original.priority] || 'border-l-transparent'
+                }`}
             >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="px-4 py-3 align-top">
