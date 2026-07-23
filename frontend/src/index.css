@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply bg-ink-950;
+}
+
+body {
+  @apply font-body text-slate-200 antialiased;
+}
+
+::selection {
+  @apply bg-signal-500/30;
+}
+
+/* Visible keyboard focus everywhere - not just on inputs. */
+:focus-visible {
+  outline: 2px solid theme('colors.signal.400');
+  outline-offset: 2px;
+}
