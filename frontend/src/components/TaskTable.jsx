@@ -172,7 +172,7 @@ export default function TaskTable({
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-ink-700">
+    <div className="overflow-x-auto  rounded-xl border border-ink-700">
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="border-b border-ink-700 bg-ink-900/80">
