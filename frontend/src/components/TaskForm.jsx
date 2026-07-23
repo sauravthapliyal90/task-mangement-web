@@ -5,9 +5,10 @@ import { taskFormSchema } from '../lib/schemas';
 import { useCreateTask } from '../hooks/useTasks.js';
 import FormField from './FormField.jsx';
 
-export default function TaskForm() {
+export default function TaskForm( {open,
+  onClose}) {
   const createTask = useCreateTask();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,33 +26,45 @@ export default function TaskForm() {
       description: values.description || undefined,
     });
     reset();
-    setOpen(false);
+    // setOpen(false);
+    onClose();
   };
 
-  if (!open) {
-    return (
-      <button
-        onClick={() => setOpen(true)}
-        className="mb-6 w-full rounded-xl border border-dashed border-ink-600 py-3 text-sm font-medium text-slate-400 transition hover:border-signal-500/50 hover:text-signal-400"
-      >
-        + New task
-      </button>
-    );
-  }
+  // if (!open) {
+  //   return (
+  //     <button
+  //       onClick={() => setOpen(true)}
+  //       className="mb-6 w-full rounded-xl border border-dashed border-ink-600 py-3 text-sm font-medium text-slate-400 transition hover:border-signal-500/50 hover:text-signal-400"
+  //     >
+  //       + New task
+  //     </button>
+  //   );
+  // }
+  if (!open) return null;
 
   return (
+    <div
+  className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+  onClick={onClose}
+>
+  <div
+    className="w-full max-w-2xl rounded-xl border border-ink-700 bg-ink-900 p-6 shadow-2xl"
+    onClick={(e) => e.stopPropagation()}
+  >
+
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="mb-6 rounded-xl border border-ink-700 bg-ink-900 p-5"
       noValidate
-    >
+      >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-display text-sm font-semibold text-slate-100">New task</h2>
         <button
           type="button"
-          onClick={() => setOpen(false)}
+          // onClick={() => setOpen(false)}
+          onClick={onClose}
           className="text-xs text-slate-500 hover:text-slate-300"
-        >
+          >
           Cancel
         </button>
       </div>
@@ -61,7 +74,7 @@ export default function TaskForm() {
             label="Title"
             error={errors.title?.message}
             inputProps={{ ...register('title'), placeholder: 'What needs doing?' }}
-          />
+            />
         </div>
         <div className="sm:col-span-2">
           <FormField
@@ -69,13 +82,13 @@ export default function TaskForm() {
             error={errors.description?.message}
             as="textarea"
             inputProps={{ ...register('description'), rows: 2, placeholder: 'Optional details' }}
-          />
+            />
         </div>
         <FormField
           label="Due date"
           error={errors.dueDate?.message}
           inputProps={{ ...register('dueDate'), type: 'date' }}
-        />
+          />
         <FormField label="Priority" error={errors.priority?.message} as="select" inputProps={{ ...register('priority') }}>
           <option value="low">Low</option>
           <option value="medium">Medium</option>
@@ -93,5 +106,7 @@ export default function TaskForm() {
         {isSubmitting ? 'Creating…' : 'Create task'}
       </button>
     </form>
+      </div>
+      </div>
   );
 }
